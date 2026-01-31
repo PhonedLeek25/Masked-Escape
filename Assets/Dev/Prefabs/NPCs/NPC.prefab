@@ -129,8 +129,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCNav
   agent: {fileID: 4483129874773581008}
-  player: {fileID: 0}
-  playerMask: {fileID: 0}
+  player: {fileID: 6398746322094806251, guid: 2ad4d644c76c24c4aa1e03857f938f21, type: 3}
+  currentMask: 0
+  MaskSwitchScript: {fileID: 2733098689614565722, guid: 2ad4d644c76c24c4aa1e03857f938f21, type: 3}
   reactRadius: 4
   fleeDistance: 3
   sideOffsetRange: 0.8
