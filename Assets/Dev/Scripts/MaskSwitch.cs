@@ -8,6 +8,7 @@ public class MaskSwitch : MonoBehaviour
     [Header("UI Mask Reference")]
     public Image redMask;
     public Image blueMask;
+    public AudioSource SFXAudioSource;
 
     void Start()
     {
@@ -39,5 +40,7 @@ public class MaskSwitch : MonoBehaviour
             redMask.gameObject.SetActive(false);
             Debug.Log("Blue Mask on");
         }
+        Debug.Log("attempting to play audio");
+        SFXAudioSource.Play();
     }
 }
