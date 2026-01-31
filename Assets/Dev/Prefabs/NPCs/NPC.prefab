@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 6824916154438266363}
   - component: {fileID: 1746189629982042275}
   - component: {fileID: 6057105466747447148}
+  - component: {fileID: 4483129874773581008}
   m_Layer: 0
   m_Name: NPC
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -127,3 +128,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0e785964361d3140a3ee7313cea8923, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCNav
+  agent: {fileID: 4483129874773581008}
+  player: {fileID: 0}
+  playerMask: {fileID: 0}
+  reactRadius: 4
+  fleeDistance: 3
+  sideOffsetRange: 0.8
+  decisionInterval: 0.6
+--- !u!195 &4483129874773581008
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4170376027600174601}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 2.2
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 180
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 0
+  m_AutoRepath: 1
+  m_Height: 1.26
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4

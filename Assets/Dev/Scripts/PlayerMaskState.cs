@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public enum MaskState { Red, Blue }
+public enum MaskState { Red, Blue , None }
 
 public class PlayerMaskState : MonoBehaviour
 {

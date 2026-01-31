@@ -4,7 +4,6 @@ using UnityEngine.AI;
 
 public class NPCNav : MonoBehaviour
 {
-
     [Header("References")]
     public NavMeshAgent agent;
     public Transform player;
@@ -14,19 +13,25 @@ public class NPCNav : MonoBehaviour
     public float reactRadius = 4f;
     public float fleeDistance = 3f;
 
-    [Header("Flow Settings")]
+    [Header("Flow")]
     public float sideOffsetRange = 0.8f;
     public float decisionInterval = 0.6f;
 
     float decisionTimer;
 
+    private void Awake()
+    {
+        if (player == null && GameObject.FindGameObjectWithTag("Player") != null)
+            player = GameObject.FindGameObjectWithTag("Player").transform;
+        if (playerMask == null && player != null)
+            playerMask = player.GetComponent<PlayerMaskState>();
+    }
     void Start()
     {
         if (agent == null)
             agent = GetComponent<NavMeshAgent>();
 
         agent.autoBraking = false;
-
         decisionTimer = Random.Range(0f, decisionInterval);
     }
 
@@ -45,11 +50,56 @@ public class NPCNav : MonoBehaviour
 
         decisionTimer = decisionInterval;
 
-        if (ShouldApproach())
+        NPCReaction reaction = GetReaction();
+
+        if (reaction == NPCReaction.None)
+        {
+            if (agent.hasPath)
+                agent.ResetPath();
+            return;
+        }
+
+        if (reaction == NPCReaction.Approach)
             ApproachPlayer();
-        else
+        else if (reaction == NPCReaction.Flee)
             FleeFromPlayer();
     }
+
+    // ---------------- LOGIC ----------------
+
+    enum NPCReaction { None, Approach, Flee }
+
+    NPCReaction GetReaction()
+    {
+        // No mask
+        if (playerMask.currentMask == MaskState.None)
+            return NPCReaction.None;
+
+        // RED NPC
+        if (gameObject.name.Contains("Red"))
+        {
+            if (playerMask.currentMask == MaskState.Red) return NPCReaction.Approach;
+            if (playerMask.currentMask == MaskState.Blue) return NPCReaction.Flee;
+        }
+
+        // BLUE NPC
+        if (gameObject.name.Contains("Blue"))
+        {
+            if (playerMask.currentMask == MaskState.Blue) return NPCReaction.Approach;
+            if (playerMask.currentMask == MaskState.Red) return NPCReaction.Flee;
+        }
+
+        //  PURPLE NPC
+        if (gameObject.name.Contains("Purple"))
+        {
+            if (playerMask.currentMask == MaskState.Red) return NPCReaction.Approach;
+            if (playerMask.currentMask == MaskState.Blue) return NPCReaction.None;
+        }
+
+        return NPCReaction.None;
+    }
+
+    // ---------------- MOVEMENT ----------------
 
     void ApproachPlayer()
     {
@@ -78,18 +128,4 @@ public class NPCNav : MonoBehaviour
         }
     }
 
-    bool ShouldApproach()
-    {
-        
-        if (gameObject.name.Contains("Red") && playerMask.currentMask == MaskState.Red)
-            return true;
-
-        if (gameObject.name.Contains("Blue") && playerMask.currentMask == MaskState.Blue)
-            return true;
-
-        if (gameObject.name.Contains("Purple") && playerMask.currentMask == MaskState.Red)
-            return true;
-
-        return false;
-    }
 }
