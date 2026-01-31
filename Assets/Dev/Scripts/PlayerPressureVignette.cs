@@ -1,87 +1,70 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using static Unity.VisualScripting.Member;
 
-public class PlayerPressureVignette : MonoBehaviour
+public class PlayerPressureEffects : MonoBehaviour
 {
-    [Header("References")]
+    [Header("REFERENCES")]
     public Volume globalVolume;
     public Camera playerCamera;
-    public PlayerMaskState playerMask; // senin mask scriptin
+    public AudioSource heartbeatSource;
 
     Vignette vignette;
 
-    [Header("NPC Detection")]
-    public float detectRadius = 2.2f;
+    [Header("NPC DETECTION")]
+    public float detectRadius = 2.5f;
     public string npcTag = "NPC";
 
-    [Header("Vignette Settings")]
-    public float maxIntensity = 0.75f;
-    public float smoothSpeed = 5f;
-    public float pulseSpeed = 4f;
-    public float pulseAmount = 0.12f;
+    [Header("VIGNETTE")]
+    public float maxVignetteIntensity = 0.75f;
+    public float vignetteSmoothSpeed = 5f;
 
-    [Header("Camera FOV Pressure")]
+    [Header("CAMERA FOV")]
     public float normalFOV = 60f;
     public float stressedFOV = 52f;
 
-    float currentIntensity;
+    [Header("HEARTBEAT")]
+    public float maxHeartbeatVolume = 0.9f;
+    public float minHeartbeatPitch = 0.9f;
+    public float maxHeartbeatPitch = 1.5f;
+
+    float currentVignette;
 
     void Start()
     {
-        if (!globalVolume.profile.TryGet(out vignette))
-        {
-            Debug.LogError("Vignette not found in Volume Profile!");
-        }
-
+        // Camera
         if (playerCamera == null)
             playerCamera = Camera.main;
+
+        // Vignette
+        if (!globalVolume.profile.TryGet(out vignette))
+        {
+            Debug.LogError("Vignette not found in Volume!");
+        }
+
+        // Audio
+        if (heartbeatSource != null)
+        {
+            heartbeatSource.volume = 0f;
+            heartbeatSource.loop = true;
+        }
+
+      
+        
+
     }
 
     void Update()
     {
-        if (vignette == null)
-            return;
-
         int nearbyNPCs = CountNearbyNPCs();
 
-        // NPC sayısına göre temel baskı
-        float targetIntensity = Mathf.Clamp01(nearbyNPCs / 4f) * maxIntensity;
-
-        // 🔥 NO MASK → daha fazla baskı
-        if (playerMask != null && playerMask.currentMask == MaskState.None)
-        {
-            targetIntensity *= 1.3f;
-        }
-
-        // Nefes / panik pulse
-        float pulse = Mathf.Sin(Time.time * pulseSpeed) * pulseAmount;
-
-        float finalIntensity = Mathf.Clamp(targetIntensity + pulse, 0f, maxIntensity);
-
-        // Yumuşak geçiş
-        currentIntensity = Mathf.Lerp(
-            currentIntensity,
-            finalIntensity,
-            Time.deltaTime * smoothSpeed
-        );
-
-        vignette.intensity.value = currentIntensity;
-
-        // 🎥 Kamera FOV baskısı
-        float fovTarget = Mathf.Lerp(
-            normalFOV,
-            stressedFOV,
-            currentIntensity / maxIntensity
-        );
-
-        playerCamera.fieldOfView = Mathf.Lerp(
-            playerCamera.fieldOfView,
-            fovTarget,
-            Time.deltaTime * 4f
-        );
+        HandleVignette(nearbyNPCs);
+        HandleHeartbeat(nearbyNPCs);
+        HandleCameraFOV(nearbyNPCs);
     }
 
+    // ---------------- NPC COUNT ----------------
     int CountNearbyNPCs()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, detectRadius);
@@ -99,7 +82,73 @@ public class PlayerPressureVignette : MonoBehaviour
         return count;
     }
 
-    // Scene view'da algılama alanını görmek için
+    // ---------------- VIGNETTE ----------------
+    void HandleVignette(int npcCount)
+    {
+        if (vignette == null)
+            return;
+
+        float target = Mathf.Clamp01(npcCount / 4f) * maxVignetteIntensity;
+
+        currentVignette = Mathf.Lerp(
+            currentVignette,
+            target,
+            Time.deltaTime * vignetteSmoothSpeed
+        );
+
+        vignette.intensity.value = currentVignette;
+    }
+
+    // ---------------- HEARTBEAT ----------------
+    void HandleHeartbeat(int npcCount)
+    {
+        if (heartbeatSource == null)
+            return;
+
+        if (npcCount > 0)
+        {
+            if (!heartbeatSource.isPlaying)
+                heartbeatSource.Play();
+        }
+        else
+        {
+            if (heartbeatSource.isPlaying)
+                heartbeatSource.Stop();
+        }
+
+        float stress01 = Mathf.Clamp01(npcCount / 4f);
+
+        float targetVolume = Mathf.Lerp(0.25f, maxHeartbeatVolume, stress01);
+        heartbeatSource.volume = Mathf.Lerp(
+            heartbeatSource.volume,
+            targetVolume,
+            Time.deltaTime * 3f
+        );
+
+        heartbeatSource.pitch = Mathf.Lerp(
+            minHeartbeatPitch,
+            maxHeartbeatPitch,
+            stress01
+        );
+    }
+
+    // ---------------- CAMERA FOV ----------------
+    void HandleCameraFOV(int npcCount)
+    {
+        if (playerCamera == null)
+            return;
+
+        float stress01 = Mathf.Clamp01(npcCount / 4f);
+        float targetFOV = Mathf.Lerp(normalFOV, stressedFOV, stress01);
+
+        playerCamera.fieldOfView = Mathf.Lerp(
+            playerCamera.fieldOfView,
+            targetFOV,
+            Time.deltaTime * 4f
+        );
+    }
+
+    // ---------------- DEBUG ----------------
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

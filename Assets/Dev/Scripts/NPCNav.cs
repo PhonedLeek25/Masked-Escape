@@ -9,6 +9,7 @@ public class NPCNav : MonoBehaviour
     public Transform player;
     public PlayerMaskState playerMask;
 
+
     [Header("Behavior")]
     public float reactRadius = 4f;
     public float fleeDistance = 3f;
@@ -27,12 +28,15 @@ public class NPCNav : MonoBehaviour
             playerMask = player.GetComponent<PlayerMaskState>();
     }
     void Start()
-    {
+    {   // NavMeshAgent 
         if (agent == null)
             agent = GetComponent<NavMeshAgent>();
 
         agent.autoBraking = false;
         decisionTimer = Random.Range(0f, decisionInterval);
+
+        
+
     }
 
     void Update()
@@ -97,6 +101,7 @@ public class NPCNav : MonoBehaviour
         }
 
         return NPCReaction.None;
+
     }
 
     // ---------------- MOVEMENT ----------------
@@ -127,5 +132,6 @@ public class NPCNav : MonoBehaviour
             agent.SetDestination(hit.position);
         }
     }
-
 }
+
+
