@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(PlayerInput))]
 public class MaskSwitch : MonoBehaviour
 {
-    public MaskTypes currentMask = MaskTypes.mask1;
+    public MaskStates currentMask = MaskStates.Red;
     void Start()
     {
         Debug.Log("ON");
@@ -18,7 +18,7 @@ public class MaskSwitch : MonoBehaviour
 
     void SwitchMask()
     {
-        if (currentMask == MaskTypes.mask2) {currentMask = MaskTypes.mask1; return; }
-        if (currentMask == MaskTypes.mask1) {currentMask = MaskTypes.mask2; return; }
+        if (currentMask == MaskStates.Red) { currentMask = MaskStates.Blue; return; }
+        if (currentMask == MaskStates.Blue) { currentMask = MaskStates.Red; return; }
     }
 }

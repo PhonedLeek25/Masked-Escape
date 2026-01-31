@@ -7,7 +7,7 @@ public class NPCNav : MonoBehaviour
     [Header("References")]
     public NavMeshAgent agent;
     public Transform player;
-    public PlayerMaskState playerMask;
+    public MaskStates playerMask;
 
 
     [Header("Behavior")]
@@ -25,7 +25,7 @@ public class NPCNav : MonoBehaviour
         if (player == null && GameObject.FindGameObjectWithTag("Player") != null)
             player = GameObject.FindGameObjectWithTag("Player").transform;
         if (playerMask == null && player != null)
-            playerMask = player.GetComponent<PlayerMaskState>();
+            playerMask = player.GetComponent<MaskStates>();
     }
     void Start()
     {   // NavMeshAgent 
@@ -76,28 +76,28 @@ public class NPCNav : MonoBehaviour
     NPCReaction GetReaction()
     {
         // No mask
-        if (playerMask.currentMask == MaskState.None)
+        if (playerMask.currentMask == MaskStates.None)
             return NPCReaction.None;
 
         // RED NPC
         if (gameObject.name.Contains("Red"))
         {
-            if (playerMask.currentMask == MaskState.Red) return NPCReaction.Approach;
-            if (playerMask.currentMask == MaskState.Blue) return NPCReaction.Flee;
+            if (playerMask.currentMask == MaskStates.Red) return NPCReaction.Approach;
+            if (playerMask.currentMask == MaskStates.Blue) return NPCReaction.Flee;
         }
 
         // BLUE NPC
         if (gameObject.name.Contains("Blue"))
         {
-            if (playerMask.currentMask == MaskState.Blue) return NPCReaction.Approach;
-            if (playerMask.currentMask == MaskState.Red) return NPCReaction.Flee;
+            if (playerMask.currentMask == MaskStates.Blue) return NPCReaction.Approach;
+            if (playerMask.currentMask == MaskStates.Red) return NPCReaction.Flee;
         }
 
         //  PURPLE NPC
         if (gameObject.name.Contains("Purple"))
         {
-            if (playerMask.currentMask == MaskState.Red) return NPCReaction.Approach;
-            if (playerMask.currentMask == MaskState.Blue) return NPCReaction.None;
+            if (playerMask.currentMask == MaskStates.Red) return NPCReaction.Approach;
+            if (playerMask.currentMask == MaskStates.Blue) return NPCReaction.None;
         }
 
         return NPCReaction.None;
