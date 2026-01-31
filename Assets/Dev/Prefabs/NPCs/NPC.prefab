@@ -135,6 +135,7 @@ MonoBehaviour:
   player: {fileID: 6398746322094806251, guid: 2ad4d644c76c24c4aa1e03857f938f21, type: 3}
   currentMask: 0
   MaskSwitchScript: {fileID: 2733098689614565722, guid: 2ad4d644c76c24c4aa1e03857f938f21, type: 3}
+  animator: {fileID: 0}
   reactRadius: 4
   fleeDistance: 3
   sideOffsetRange: 0.8
@@ -204,7 +205,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4170376027600174601}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: 07279c18f9e9b16478041ee7c5d4ee32, type: 3}
   m_Controller: {fileID: 9100000, guid: 6716292a548baf046bda89851fcb138c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0

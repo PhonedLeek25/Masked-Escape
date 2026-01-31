@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
-
+using UnityEngine.Animations;
 
 public class NPCNav : MonoBehaviour
 {
@@ -9,11 +9,14 @@ public class NPCNav : MonoBehaviour
     public Transform player;
     public MaskStates currentMask;
     public MaskSwitch MaskSwitchScript;
+    public Animator animator;
 
+    
 
     [Header("Behavior")]
     public float reactRadius = 4f;
     public float fleeDistance = 3f;
+    
 
     [Header("Flow")]
     public float sideOffsetRange = 0.8f;
@@ -33,7 +36,11 @@ public class NPCNav : MonoBehaviour
                 Debug.LogError("Fatal Error: NPCNav script unable to find MaskSwtich script component");
             }
         }
-            
+        if(animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
+
     }
     void Start()
     {   // NavMeshAgent 
@@ -79,6 +86,20 @@ public class NPCNav : MonoBehaviour
             ApproachPlayer();
         else if (reaction == NPCReaction.Flee)
             FleeFromPlayer();
+
+        //play Animation
+       if(reaction == NPCReaction.Approach || reaction == NPCReaction.Flee)
+        {
+            Debug.Log("NPC is moving");
+            animator.SetBool("isWalking", true);
+            
+        }
+       else if(reaction == NPCReaction.None)
+        {
+            Debug.Log("NPC is idle");
+            animator.SetBool("isWalking", false);
+        }
+
     }
 
     // ---------------- LOGIC ----------------
@@ -144,6 +165,7 @@ public class NPCNav : MonoBehaviour
             agent.SetDestination(hit.position);
         }
     }
+    
 }
 
 
