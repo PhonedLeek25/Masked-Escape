@@ -1,13 +1,12 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
-using static Unity.VisualScripting.Member;
 
-public class PlayerPressureEffects : MonoBehaviour
+public class PlayerPressureController : MonoBehaviour
 {
     [Header("REFERENCES")]
-    public Volume globalVolume;
     public Camera playerCamera;
+    public Volume globalVolume;
     public AudioSource heartbeatSource;
 
     Vignette vignette;
@@ -17,51 +16,48 @@ public class PlayerPressureEffects : MonoBehaviour
     public string npcTag = "NPC";
 
     [Header("VIGNETTE")]
-    public float maxVignetteIntensity = 0.75f;
-    public float vignetteSmoothSpeed = 5f;
+    public float maxVignetteIntensity = 0.6f;
+    public float vignetteSmooth = 6f;
 
-    [Header("CAMERA FOV")]
-    public float normalFOV = 60f;
-    public float stressedFOV = 52f;
+    [Header("HEART PULSE")]
+    public float heartPulseSpeed = 2.2f;
+    public float maxVignettePulse = 0.12f;
 
-    [Header("HEARTBEAT")]
+    [Header("CAMERA SHAKE")]
+    public float maxShakeAmount = 0.06f;
+
+    [Header("HEARTBEAT AUDIO")]
     public float maxHeartbeatVolume = 0.9f;
-    public float minHeartbeatPitch = 0.9f;
-    public float maxHeartbeatPitch = 1.5f;
+    public float minHeartbeatPitch = 0.95f;
+    public float maxHeartbeatPitch = 1.4f;
 
+    Vector3 camStartLocalPos;
+    float pulseTimer;
     float currentVignette;
 
     void Start()
     {
-        // Camera
         if (playerCamera == null)
             playerCamera = Camera.main;
 
-        // Vignette
-        if (!globalVolume.profile.TryGet(out vignette))
-        {
-            Debug.LogError("Vignette not found in Volume!");
-        }
+        camStartLocalPos = playerCamera.transform.localPosition;
 
-        // Audio
+        if (!globalVolume.profile.TryGet(out vignette))
+            Debug.LogError("Vignette not found in Global Volume!");
+
         if (heartbeatSource != null)
         {
-            heartbeatSource.volume = 0f;
             heartbeatSource.loop = true;
+            heartbeatSource.volume = 0f;
         }
-
-      
-        
-
     }
 
     void Update()
     {
         int nearbyNPCs = CountNearbyNPCs();
 
-        HandleVignette(nearbyNPCs);
         HandleHeartbeat(nearbyNPCs);
-        HandleCameraFOV(nearbyNPCs);
+        HandlePulseEffects(nearbyNPCs);
     }
 
     // ---------------- NPC COUNT ----------------
@@ -82,28 +78,55 @@ public class PlayerPressureEffects : MonoBehaviour
         return count;
     }
 
-    // ---------------- VIGNETTE ----------------
-    void HandleVignette(int npcCount)
+    // ---------------- HEART + CAMERA + VIGNETTE ----------------
+    void HandlePulseEffects(int npcCount)
     {
-        if (vignette == null)
+        if (vignette == null || playerCamera == null)
             return;
 
-        float target = Mathf.Clamp01(npcCount / 4f) * maxVignetteIntensity;
+        float stress01 = Mathf.Clamp01(npcCount / 4f);
+
+        if (stress01 <= 0f)
+        {
+            // reset
+            currentVignette = Mathf.Lerp(currentVignette, 0f, Time.deltaTime * vignetteSmooth);
+            vignette.intensity.value = currentVignette;
+
+            playerCamera.transform.localPosition =
+                Vector3.Lerp(playerCamera.transform.localPosition, camStartLocalPos, Time.deltaTime * 6f);
+
+            return;
+        }
+
+        // heart rhythm
+        pulseTimer += Time.deltaTime * heartPulseSpeed * Mathf.Lerp(1f, 1.8f, stress01);
+        float pulse = Mathf.Abs(Mathf.Sin(pulseTimer));
+
+        // CAMERA SHAKE (Y axis)
+        float shake = pulse * maxShakeAmount * stress01;
+        playerCamera.transform.localPosition =
+            camStartLocalPos + new Vector3(0f, shake, 0f);
+
+        // VIGNETTE BASE + PULSE
+        float baseVignette = stress01 * maxVignetteIntensity;
+        float targetVignette = baseVignette + pulse * maxVignettePulse;
 
         currentVignette = Mathf.Lerp(
             currentVignette,
-            target,
-            Time.deltaTime * vignetteSmoothSpeed
+            targetVignette,
+            Time.deltaTime * vignetteSmooth
         );
 
         vignette.intensity.value = currentVignette;
     }
 
-    // ---------------- HEARTBEAT ----------------
+    // ---------------- HEARTBEAT AUDIO ----------------
     void HandleHeartbeat(int npcCount)
     {
         if (heartbeatSource == null)
             return;
+
+        float stress01 = Mathf.Clamp01(npcCount / 4f);
 
         if (npcCount > 0)
         {
@@ -116,8 +139,6 @@ public class PlayerPressureEffects : MonoBehaviour
                 heartbeatSource.Stop();
         }
 
-        float stress01 = Mathf.Clamp01(npcCount / 4f);
-
         float targetVolume = Mathf.Lerp(0.25f, maxHeartbeatVolume, stress01);
         heartbeatSource.volume = Mathf.Lerp(
             heartbeatSource.volume,
@@ -129,22 +150,6 @@ public class PlayerPressureEffects : MonoBehaviour
             minHeartbeatPitch,
             maxHeartbeatPitch,
             stress01
-        );
-    }
-
-    // ---------------- CAMERA FOV ----------------
-    void HandleCameraFOV(int npcCount)
-    {
-        if (playerCamera == null)
-            return;
-
-        float stress01 = Mathf.Clamp01(npcCount / 4f);
-        float targetFOV = Mathf.Lerp(normalFOV, stressedFOV, stress01);
-
-        playerCamera.fieldOfView = Mathf.Lerp(
-            playerCamera.fieldOfView,
-            targetFOV,
-            Time.deltaTime * 4f
         );
     }
 
