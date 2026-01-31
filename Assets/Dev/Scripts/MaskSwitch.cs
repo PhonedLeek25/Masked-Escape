@@ -31,22 +31,13 @@ public class MaskSwitch : MonoBehaviour
         {
             redMask.gameObject.SetActive(true);
             blueMask.gameObject.SetActive(false);
-            Debug.Log("Enabled Red");
+            Debug.Log("Red Mask on");
         }
         if (currentMask == MaskStates.Blue)
         {
             blueMask.gameObject.SetActive(true);
             redMask.gameObject.SetActive(false);
-            Debug.Log("Enabled Blue");
+            Debug.Log("Blue Mask on");
         }
-
-
-        Debug.Log("RED -- gameObject: " + redMask.gameObject.activeSelf +
-            " gameObject in Heirarchy: " + redMask.gameObject.activeInHierarchy +
-            " Image: " + redMask.enabled);
-
-        Debug.Log("BLUE - gameObject: " + blueMask.gameObject.activeSelf +
-            " gameObject in Heirarchy: " + blueMask.gameObject.activeInHierarchy +
-                " Image: " + blueMask.enabled);
     }
 }
