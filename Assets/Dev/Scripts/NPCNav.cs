@@ -1,57 +1,95 @@
 using UnityEngine;
+using UnityEngine.AI;
 
-public enum CurrentMask { mask1 , mask2 };
+
 public class NPCNav : MonoBehaviour
 {
-    //mask 1: attracts NPC A, Repells B, neutral C
-    // mask 2: attracts NPC C, Repells A, neutral B
-    public enum NPCTypes { A, B, C };
 
-    [Header("NPC based references")]
-    public NPCTypes ThisNPCType;
+    [Header("References")]
+    public NavMeshAgent agent;
+    public Transform player;
+    public PlayerMaskState playerMask;
 
-    [Header("Player based references")]
-    public CurrentMask currentMask;
-    public GameObject playerObj;
+    [Header("Behavior")]
+    public float reactRadius = 4f;
+    public float fleeDistance = 3f;
 
+    [Header("Flow Settings")]
+    public float sideOffsetRange = 0.8f;
+    public float decisionInterval = 0.6f;
 
-    public void TakeActionBasedOnCurrentMask()
+    float decisionTimer;
+
+    void Start()
     {
-        switch (currentMask)
+        if (agent == null)
+            agent = GetComponent<NavMeshAgent>();
+
+        agent.autoBraking = false;
+
+        decisionTimer = Random.Range(0f, decisionInterval);
+    }
+
+    void Update()
+    {
+        if (agent == null || !agent.isOnNavMesh || player == null || playerMask == null)
+            return;
+
+        float dist = Vector3.Distance(transform.position, player.position);
+        if (dist > reactRadius)
+            return;
+
+        decisionTimer -= Time.deltaTime;
+        if (decisionTimer > 0f)
+            return;
+
+        decisionTimer = decisionInterval;
+
+        if (ShouldApproach())
+            ApproachPlayer();
+        else
+            FleeFromPlayer();
+    }
+
+    void ApproachPlayer()
+    {
+        Vector3 toPlayer = (player.position - transform.position).normalized;
+        Vector3 side = Vector3.Cross(Vector3.up, toPlayer).normalized;
+
+        float sideOffset = Random.Range(-sideOffsetRange, sideOffsetRange);
+        Vector3 target = player.position + side * sideOffset;
+
+        agent.SetDestination(target);
+    }
+
+    void FleeFromPlayer()
+    {
+        Vector3 fleeDir = (transform.position - player.position).normalized;
+
+        float angle = Random.Range(-40f, 40f);
+        Vector3 angledDir = Quaternion.Euler(0, angle, 0) * fleeDir;
+
+        Vector3 targetPos = transform.position + angledDir * fleeDistance;
+
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(targetPos, out hit, 2f, NavMesh.AllAreas))
         {
-            case CurrentMask.mask1:
-                if (ThisNPCType == NPCTypes.A)
-                {
-                    //Attract to player
-                }
-                else if (ThisNPCType == NPCTypes.B)
-                {
-                    //Repell from player
-                }
-                else
-                {
-                    //Neutral behavior
-                }
-                break;
-            case CurrentMask.mask2:
-                if (ThisNPCType == NPCTypes.C)
-                {
-                    //Attract to player
-                }
-                else if (ThisNPCType == NPCTypes.A)
-                {
-                    //Repell from player
-                }
-                else
-                {
-                    //Neutral behavior
-                }
-                break;
+            agent.SetDestination(hit.position);
         }
     }
-    private void Update()
+
+    bool ShouldApproach()
     {
-        TakeActionBasedOnCurrentMask();
+        
+        if (gameObject.name.Contains("Red") && playerMask.currentMask == MaskState.Red)
+            return true;
+
+        if (gameObject.name.Contains("Blue") && playerMask.currentMask == MaskState.Blue)
+            return true;
+
+        if (gameObject.name.Contains("Purple") && playerMask.currentMask == MaskState.Red)
+            return true;
+
+        return false;
     }
-    
 }
