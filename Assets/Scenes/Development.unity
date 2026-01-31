@@ -805,12 +805,12 @@ GameObject:
   - component: {fileID: 832575519}
   - component: {fileID: 832575518}
   m_Layer: 0
-  m_Name: Global Volume
+  m_Name: OLD Global Volume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &832575518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1057,24 +1057,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4685920565176255774, guid: 3c0935ec67bb0204d82dbe8e13bf9b29, type: 3}
   m_PrefabInstance: {fileID: 4417216091526397004}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1866335471 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8792108162461017354, guid: 2ad4d644c76c24c4aa1e03857f938f21, type: 3}
-  m_PrefabInstance: {fileID: 7054438760920473132}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1866335472
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1866335471}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2608934640ca6954fbdeca886fbc92a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::playerNpcdetect
-  currentMask: 0
 --- !u!4 &1883570853 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7006974535362618172, guid: 9378243e4001de24c9f7f8422b7570b4, type: 3}
@@ -1376,18 +1358,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 666048327920861744, guid: 2ad4d644c76c24c4aa1e03857f938f21, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5781171887681147363, guid: 2ad4d644c76c24c4aa1e03857f938f21, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6181557339054945471, guid: 2ad4d644c76c24c4aa1e03857f938f21, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6398746322094806251, guid: 2ad4d644c76c24c4aa1e03857f938f21, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1432,26 +1402,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 8792108162461017354, guid: 2ad4d644c76c24c4aa1e03857f938f21, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 8792108162461017354, guid: 2ad4d644c76c24c4aa1e03857f938f21, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8792108162461017354, guid: 2ad4d644c76c24c4aa1e03857f938f21, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4523424193099762104, guid: 2ad4d644c76c24c4aa1e03857f938f21, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8792108162461017354, guid: 2ad4d644c76c24c4aa1e03857f938f21, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1866335472}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ad4d644c76c24c4aa1e03857f938f21, type: 3}
 --- !u!4 &7631817990532983104 stripped
 Transform:
