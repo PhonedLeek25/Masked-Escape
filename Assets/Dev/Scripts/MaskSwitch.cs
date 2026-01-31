@@ -11,16 +11,12 @@ public class MaskSwitch : MonoBehaviour
 
     void Start()
     {
-        redMask.enabled = false;
-        blueMask.enabled = false;
-        ApplyMasktoUI();
+        ApplyUI();
     }
     public void OnInteract(InputValue value)
     {
-        Debug.Log("value is pressed:" + value.isPressed);
-        Debug.Log("Interaction button pressed");
         SwitchMask();
-        Debug.Log("Current mask: " + currentMask);
+        ApplyUI();
     }
 
     void SwitchMask()
@@ -28,13 +24,29 @@ public class MaskSwitch : MonoBehaviour
         //Apply Logic
         if (currentMask == MaskStates.Red) { currentMask = MaskStates.Blue; return; }
         if (currentMask == MaskStates.Blue) { currentMask = MaskStates.Red; return; }
-
-        //Apply to UI
-        ApplyMasktoUI();
     }
-    void ApplyMasktoUI()
+    void ApplyUI()
     {
-        if (currentMask == MaskStates.Red) { redMask.enabled = true; }
-        if (currentMask == MaskStates.Blue) { blueMask.enabled = true; }
+        if (currentMask == MaskStates.Red)
+        {
+            redMask.gameObject.SetActive(true);
+            blueMask.gameObject.SetActive(false);
+            Debug.Log("Enabled Red");
+        }
+        if (currentMask == MaskStates.Blue)
+        {
+            blueMask.gameObject.SetActive(true);
+            redMask.gameObject.SetActive(false);
+            Debug.Log("Enabled Blue");
+        }
+
+
+        Debug.Log("RED -- gameObject: " + redMask.gameObject.activeSelf +
+            " gameObject in Heirarchy: " + redMask.gameObject.activeInHierarchy +
+            " Image: " + redMask.enabled);
+
+        Debug.Log("BLUE - gameObject: " + blueMask.gameObject.activeSelf +
+            " gameObject in Heirarchy: " + blueMask.gameObject.activeInHierarchy +
+                " Image: " + blueMask.enabled);
     }
 }
