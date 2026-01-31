@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class TriggerSuccess : MonoBehaviour
+public class TriggerSceneChange : MonoBehaviour
 {
-    public int SuccessSceneIndex = 2;
+    public int SceneIndex = 2;
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag != "Player") { return; }
-        SceneManager.LoadScene(SuccessSceneIndex);
+        SceneManager.LoadScene(SceneIndex);
     }
 }
