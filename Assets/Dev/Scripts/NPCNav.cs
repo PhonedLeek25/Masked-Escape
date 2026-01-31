@@ -7,7 +7,8 @@ public class NPCNav : MonoBehaviour
     [Header("References")]
     public NavMeshAgent agent;
     public Transform player;
-    public MaskStates playerMask;
+    public MaskStates currentMask;
+    public MaskSwitch MaskSwitchScript;
 
 
     [Header("Behavior")]
@@ -22,10 +23,17 @@ public class NPCNav : MonoBehaviour
 
     private void Awake()
     {
-        if (player == null && GameObject.FindGameObjectWithTag("Player") != null)
-            player = GameObject.FindGameObjectWithTag("Player").transform;
-        if (playerMask == null && player != null)
-            playerMask = player.GetComponent<MaskStates>();
+        //if (player == null && GameObject.FindGameObjectWithTag("Player") != null)
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        if (MaskSwitchScript == null)
+        {
+            MaskSwitchScript = player.GetComponent<MaskSwitch>();
+            if (MaskSwitchScript == null)
+            {
+                Debug.LogError("Fatal Error: NPCNav script unable to find MaskSwtich script component");
+            }
+        }
+            
     }
     void Start()
     {   // NavMeshAgent 
@@ -41,7 +49,11 @@ public class NPCNav : MonoBehaviour
 
     void Update()
     {
-        if (agent == null || !agent.isOnNavMesh || player == null || playerMask == null)
+        //FETCH CURRENT MASK STATE
+        currentMask = MaskSwitchScript.currentMask;
+
+        //NAVIGATE
+        if (agent == null || !agent.isOnNavMesh || player == null)
             return;
 
         float dist = Vector3.Distance(transform.position, player.position);
@@ -76,28 +88,28 @@ public class NPCNav : MonoBehaviour
     NPCReaction GetReaction()
     {
         // No mask
-        if (playerMask.currentMask == MaskStates.None)
+        if (currentMask == MaskStates.None)
             return NPCReaction.None;
 
         // RED NPC
         if (gameObject.name.Contains("Red"))
         {
-            if (playerMask.currentMask == MaskStates.Red) return NPCReaction.Approach;
-            if (playerMask.currentMask == MaskStates.Blue) return NPCReaction.Flee;
+            if (currentMask == MaskStates.Red) return NPCReaction.Approach;
+            if (currentMask == MaskStates.Blue) return NPCReaction.Flee;
         }
 
         // BLUE NPC
         if (gameObject.name.Contains("Blue"))
         {
-            if (playerMask.currentMask == MaskStates.Blue) return NPCReaction.Approach;
-            if (playerMask.currentMask == MaskStates.Red) return NPCReaction.Flee;
+            if (currentMask == MaskStates.Blue) return NPCReaction.Approach;
+            if (currentMask == MaskStates.Red) return NPCReaction.Flee;
         }
 
         //  PURPLE NPC
         if (gameObject.name.Contains("Purple"))
         {
-            if (playerMask.currentMask == MaskStates.Red) return NPCReaction.Approach;
-            if (playerMask.currentMask == MaskStates.Blue) return NPCReaction.None;
+            if (currentMask == MaskStates.Red) return NPCReaction.Approach;
+            if (currentMask == MaskStates.Blue) return NPCReaction.None;
         }
 
         return NPCReaction.None;
