@@ -13,6 +13,7 @@ public class MaskSwitch : MonoBehaviour
     {
         redMask.enabled = false;
         blueMask.enabled = false;
+        ApplyMasktoUI();
     }
     public void OnInteract(InputValue value)
     {
@@ -29,9 +30,11 @@ public class MaskSwitch : MonoBehaviour
         if (currentMask == MaskStates.Blue) { currentMask = MaskStates.Red; return; }
 
         //Apply to UI
-        if (currentMask == MaskStates.Red)
-        {
-
-        }
+        ApplyMasktoUI();
+    }
+    void ApplyMasktoUI()
+    {
+        if (currentMask == MaskStates.Red) { redMask.enabled = true; }
+        if (currentMask == MaskStates.Blue) { blueMask.enabled = true; }
     }
 }
