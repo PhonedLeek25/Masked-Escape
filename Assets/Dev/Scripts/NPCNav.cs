@@ -59,6 +59,16 @@ public class NPCNav : MonoBehaviour
         //FETCH CURRENT MASK STATE
         currentMask = MaskSwitchScript.currentMask;
 
+        // ---------------- ANIMATION (ALWAYS UPDATE) ----------------
+        if (animator != null && agent != null)
+        {
+            float speed = agent.velocity.magnitude;
+
+            bool isWalking = speed > 0.1f;
+            
+            animator.SetBool("isWalking", isWalking);
+        }
+
         //NAVIGATE
         if (agent == null || !agent.isOnNavMesh || player == null)
             return;
@@ -86,19 +96,6 @@ public class NPCNav : MonoBehaviour
             ApproachPlayer();
         else if (reaction == NPCReaction.Flee)
             FleeFromPlayer();
-
-        //play Animation
-       if(reaction == NPCReaction.Approach || reaction == NPCReaction.Flee)
-        {
-            Debug.Log("NPC is moving");
-            animator.SetBool("isWalking", true);
-            
-        }
-       else if(reaction == NPCReaction.None)
-        {
-            Debug.Log("NPC is idle");
-            animator.SetBool("isWalking", false);
-        }
 
     }
 
