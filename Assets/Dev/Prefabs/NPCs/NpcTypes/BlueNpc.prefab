@@ -9,12 +9,32 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1746189629982042275, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
+      propertyPath: m_Height
+      value: 3.9177756
+      objectReference: {fileID: 0}
+    - target: {fileID: 1746189629982042275, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1746189629982042275, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
+      propertyPath: m_Center.y
+      value: 2.0411122
+      objectReference: {fileID: 0}
+    - target: {fileID: 4164055577014339093, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
+      propertyPath: m_Size.z
+      value: 1.1999985
+      objectReference: {fileID: 0}
+    - target: {fileID: 4164055577014339093, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
+      propertyPath: m_Center.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4164055577014339093, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
+      propertyPath: m_Center.z
+      value: 0.0000007748604
+      objectReference: {fileID: 0}
     - target: {fileID: 4170376027600174601, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
       propertyPath: m_Name
-      value: BlueNpc Variant
+      value: BlueNpc
       objectReference: {fileID: 0}
     - target: {fileID: 4170376027600174601, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
       propertyPath: m_TagString
@@ -24,21 +44,33 @@ PrefabInstance:
       propertyPath: agent
       value: 
       objectReference: {fileID: 6982378027754577742}
+    - target: {fileID: 6057105466747447148, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6057105466747447148, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
+      propertyPath: reactRadius
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6057105466747447148, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
+      propertyPath: MaskSwitchScript
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6824916154438266363, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 539a01b6e5e925645bf5879ce86f35eb, type: 2}
     - target: {fileID: 7815016973780997790, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.3562899
+      value: -4.4614525
       objectReference: {fileID: 0}
     - target: {fileID: 7815016973780997790, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.02
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7815016973780997790, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.6481199
+      value: -5.3342857
       objectReference: {fileID: 0}
     - target: {fileID: 7815016973780997790, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -99,7 +131,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
-  m_Height: 1.26
-  m_BaseOffset: 1
+  m_Height: 3.69
+  m_BaseOffset: -0.22
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4

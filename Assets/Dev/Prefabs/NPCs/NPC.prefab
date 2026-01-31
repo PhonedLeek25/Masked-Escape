@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4483129874773581008}
   - component: {fileID: 4164055577014339093}
   - component: {fileID: 7136441886814799851}
+  - component: {fileID: 455575998191764932}
   m_Layer: 0
   m_Name: NPC
   m_TagString: NPC
@@ -45,7 +46,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4170376027600174601}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 1548162625887405695, guid: 07279c18f9e9b16478041ee7c5d4ee32, type: 3}
 --- !u!23 &6824916154438266363
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -117,7 +118,7 @@ CapsuleCollider:
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &6057105466747447148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,3 +195,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TriggerSceneChange
   SceneIndex: 3
+--- !u!95 &455575998191764932
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4170376027600174601}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6716292a548baf046bda89851fcb138c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

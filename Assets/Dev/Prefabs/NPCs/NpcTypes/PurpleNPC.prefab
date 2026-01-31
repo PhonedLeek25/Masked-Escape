@@ -10,11 +10,31 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4170376027600174601, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
       propertyPath: m_Name
-      value: PurpleNPC Variant
+      value: PurpleNPC
+      objectReference: {fileID: 0}
+    - target: {fileID: 4483129874773581008, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
+      propertyPath: m_Height
+      value: 3.69
+      objectReference: {fileID: 0}
+    - target: {fileID: 4483129874773581008, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
+      propertyPath: m_BaseOffset
+      value: -0.22
       objectReference: {fileID: 0}
     - target: {fileID: 4483129874773581008, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
       propertyPath: m_StoppingDistance
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6057105466747447148, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6057105466747447148, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
+      propertyPath: reactRadius
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6057105466747447148, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
+      propertyPath: MaskSwitchScript
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6824916154438266363, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -22,15 +42,15 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: b1c5806e05904fb48b86041cd4b91fe3, type: 2}
     - target: {fileID: 7815016973780997790, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.68629
+      value: -4.169056
       objectReference: {fileID: 0}
     - target: {fileID: 7815016973780997790, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.02
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7815016973780997790, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.62812
+      value: 1.0523338
       objectReference: {fileID: 0}
     - target: {fileID: 7815016973780997790, guid: cf0e9e7326ff25b4ebe2c8e1e074e70b, type: 3}
       propertyPath: m_LocalRotation.w
