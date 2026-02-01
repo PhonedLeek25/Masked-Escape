@@ -136,7 +136,7 @@ MonoBehaviour:
   currentMask: 0
   MaskSwitchScript: {fileID: 2733098689614565722, guid: 2ad4d644c76c24c4aa1e03857f938f21, type: 3}
   animator: {fileID: 0}
-  reactRadius: 4
+  reactRadius: 6
   fleeDistance: 3
   sideOffsetRange: 0.8
   decisionInterval: 0.6
@@ -150,7 +150,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 2.2
+  m_Speed: 3.2
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 180

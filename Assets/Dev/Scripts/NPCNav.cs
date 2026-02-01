@@ -129,6 +129,12 @@ public class NPCNav : MonoBehaviour
             if (currentMask == MaskStates.Red) return NPCReaction.Approach;
             if (currentMask == MaskStates.Blue) return NPCReaction.None;
         }
+        // YELLOW NPC
+        if(gameObject.name.Contains("Yellow"))
+        {
+            if (currentMask == MaskStates.Blue) return NPCReaction.Approach;
+            if (currentMask == MaskStates.Red) return NPCReaction.None;
+        }
 
         return NPCReaction.None;
 
